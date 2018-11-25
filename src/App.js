@@ -1,26 +1,33 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import Header from './Header'
+import Pagination from './Pagination'
+import { AppWrapper } from './styled.js'
+ 
 class App extends Component {
+  state = { 
+    data: null,
+    pageNumber: 1
+  }
+
+  componentDidMount = async () => {
+     const results = await fetch('https://swapi.co/api/planets/')
+     const data = await results.json()
+
+     this.setState({data})
+  }
+
   render() {
+    // Debuging comment
+    console.log('this.state.data', this.state.data)
+
+    const { pageNumber } = this.state
+    
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <AppWrapper>
+        <Header />
+        <h1>Planets go here</h1>
+        <Pagination pageNumber={pageNumber}/>
+      </AppWrapper>
     );
   }
 }
