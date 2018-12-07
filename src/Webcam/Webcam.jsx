@@ -12,7 +12,7 @@ class Webcam extends Component {
         const video = document.querySelector('video')
         video.srcObject = webcamSource
         video.onloadeddata = e => video.play()
-    } 
+    }
 
     render = () => <video></video>
 }

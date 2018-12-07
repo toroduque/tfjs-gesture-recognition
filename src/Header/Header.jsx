@@ -10,9 +10,6 @@ const Header = () => (
             <span>Planets</span>
         </styled.LogoWrapper>
         <Webcam />
-        {/* <styled.FakeWebcam>
-            Fake webcam
-        </styled.FakeWebcam> */}
     </styled.HeaderWrapper>
 )
 

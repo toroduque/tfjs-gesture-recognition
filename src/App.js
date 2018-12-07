@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from './Header'
-import Pagination from './Pagination'
 import * as styled from './styled.js'
-import PlanetOption from './PlanetOption';
+import PlanetsMenu from './PlanetsMenu'
+import PlanetCard from './PlanetCard'
  
 class App extends Component {
   state = { 
@@ -56,15 +57,21 @@ class App extends Component {
   }
 
   render() {
-    const { pageNumber, planets } = this.state
-    
     return (
       <styled.AppWrapper>
         <Header />
-        <styled.PlanetsWrapper>
-            { planets && planets.map((planet, index) => <PlanetOption name={planet.name} option={index + 1} />) }
-        </styled.PlanetsWrapper>
-        <Pagination pageNumber={pageNumber} nextPage={this.nextPage} previousPage={this.previousPage}/>
+        <Router>
+          <Switch>
+            <Route path="/" exact component={() => (
+              <PlanetsMenu
+                nextPage={this.nextPage}
+                previousPage={this.previousPage}
+                {...this.state}
+              />)} 
+            />
+            <Route path="/planet/:name" component={PlanetCard} />
+          </Switch>
+        </Router>
       </styled.AppWrapper>
     );
   }
