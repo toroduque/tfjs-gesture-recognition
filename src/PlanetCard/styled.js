@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const PlanetCardWrapper = styled.div`
     display: flex;
+    margin: 0 170px;
 `
 
 export const PlanetName = styled.h2`
