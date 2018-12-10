@@ -19,14 +19,3 @@ export const LogoWrapper = styled.div`
     align-items: center;
     justify-content: center;
 `
-
-// TEMORARY
-export const FakeWebcam = styled.div`
-    width: 150px;
-    height: 150px;
-    background: gray;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`

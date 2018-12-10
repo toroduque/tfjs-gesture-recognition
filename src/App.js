@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from './Header'
 import * as styled from './styled.js'
+import Logo from './Images/Logo'
+import Webcam from './Webcam'
 import PlanetsMenu from './PlanetsMenu'
 import PlanetCard from './PlanetCard'
+import TrainingMenu from './TrainingMenu'
+import Classifier from './Classifier'
  
 class App extends Component {
   state = { 
@@ -57,9 +61,16 @@ class App extends Component {
   }
 
   render() {
+
     return (
       <styled.AppWrapper>
-        <Header />
+        <styled.HeaderWrapper>
+            <styled.LogoWrapper>
+                <Logo />
+                <span>Planets</span>
+            </styled.LogoWrapper>
+            <Webcam onRef={ref => (this.webcam = ref)} />
+        </styled.HeaderWrapper>
         <Router>
           <Switch>
             <Route path="/" exact component={() => (
@@ -70,8 +81,10 @@ class App extends Component {
               />)} 
             />
             <Route path="/planet/:name" component={PlanetCard} />
+            <Route path="/train" component={() => <TrainingMenu labels={['one', 'two', 'three', 'left', 'right']} />} />
           </Switch>
         </Router>
+        <Classifier webcam={this.webcam} />
       </styled.AppWrapper>
     );
   }
