@@ -7,8 +7,8 @@ class Classifier extends Component {
        numClasses: 5,
        truncatedMobileNet: null,
        model: null,
-       learningRate: 0.001,
-       epochs: 20,
+       learningRate: 0.0001,
+       epochs: 40,
        isPredicting: false,
        thumbDisplayed: {}
     }
@@ -17,16 +17,22 @@ class Classifier extends Component {
     CONTROLS = ['left', 'right', 'one', 'two', 'three']
 
     componentDidMount = async () => {
+        this.props.onRef(this)
         const truncatedMobileNet = await this.loadTruncatedMobileNet()
         this.setState({truncatedMobileNet})
     }
 
+    componentWillUnmount() {
+        this.props.onRef(undefined)
+    }
+
     componentDidUpdate(prevProps) {
+        const { truncatedMobileNet } = this.state
         // Warm up the model. This uploads weights to the GPU and compiles the WebGL
         // programs so the first time we collect data from the webcam it will be
         // quick.
 
-        if(prevProps.webcam !== this.props.webcam){
+        if(prevProps.webcam !== this.props.webcam && truncatedMobileNet) {
             tf.tidy(() => this.state.truncatedMobileNet.predict(this.props.webcam.capture()));
         }
     }
@@ -89,16 +95,18 @@ class Classifier extends Component {
 
                 // Returns the index with the maximum probability. This number corresponds
                 // to the class the model thinks is the most probable given the input.
-                return predictions.as1D().argMax()
+                return predictions.as1D()
             })
 
-            const classId = (await predictedClass.data())[0]
+            const predictionsArray = await predictedClass.data()
+            const classId = (await predictedClass.argMax().data())[0]
+            const accuracy = predictionsArray[classId]
 
             // Clean memory with dispose
             predictedClass.dispose()
 
             // this should return the label of the prediction
-            console.log('classId', this.CONTROLS[classId])
+            console.log(`classId => ${this.CONTROLS[classId]} | accuracy => ${accuracy}`)
 
             await tf.nextFrame();
         }
@@ -128,13 +136,13 @@ class Classifier extends Component {
         const { thumbDisplayed } = this.state
 
         if(thumbDisplayed[label] === undefined) {
-            const canvasId = this.CONTROLS[label] + '-thumb'
+            const canvasId = `${this.CONTROLS[label]}-thumb`
             const thumbCanvas = document.getElementById(canvasId)
             this.draw(img, thumbCanvas)
         }
     }
 
-    async getExamples(label) {
+    getExamples = async (label) => {
         tf.tidy(() => {
             const img = this.props.webcam.capture();
             this.controllerDataset.addExample(this.state.truncatedMobileNet.predict(img), label)
@@ -142,25 +150,7 @@ class Classifier extends Component {
         })
     }
 
-    render() {
-        return(
-            <div>
-                <canvas id="left-thumb"></canvas>
-                <button onClick={() => this.getExamples(0)}> Left examples </button>
-                <canvas id="right-thumb"></canvas>
-                <button onClick={() => this.getExamples(1)}> Right examples</button>
-                <canvas id="one-thumb"></canvas>
-                <button onClick={() => this.getExamples(2)}> One examples</button>
-                <canvas id="two-thumb"></canvas>
-                <button onClick={() => this.getExamples(3)}> Two examples</button>
-                <canvas id="three-thumb"></canvas>
-                <button onClick={() => this.getExamples(4)}> Three examples</button>
-
-                <button onClick={this.train}> Train Model </button>
-                <button onClick={this.handlePredict}> Predict </button>
-            </div>
-        )
-    }
+    render = () => <div></div>
 }
 
 export default Classifier

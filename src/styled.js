@@ -2,7 +2,8 @@ import styled from 'styled-components'
 
 export const AppWrapper = styled.div`
     background: black;
-    width: 97%;
+    width: 93.31%;
+    height: 93.5vh;
     color: white;
     padding: 2rem 4rem;
 `

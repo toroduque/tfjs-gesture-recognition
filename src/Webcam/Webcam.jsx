@@ -50,7 +50,7 @@ class Webcam extends Component {
             // Reads the image as a Tensor from the webcam <video> element.
             const webcamImage = tf.fromPixels(video)
 
-            // Crop the image so we're using the center square of the rectangular
+            // Crop the image so we're using the center square of a rectangular
             // webcam.
             const croppedImage = this.cropImage(webcamImage)
 
@@ -63,14 +63,7 @@ class Webcam extends Component {
         })
     }
 
-    render() {
-        return (
-            <div>
-                <video ref={this.video}></video>
-                {console.log(this.video.current && this.capture())}
-            </div>
-        )
-    }
+    render = () => <video ref={this.video}></video>
 }
 
 export default Webcam
