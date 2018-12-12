@@ -106,7 +106,11 @@ class Classifier extends Component {
             predictedClass.dispose()
 
             // this should return the label of the prediction
-            console.log(`classId => ${this.CONTROLS[classId]} | accuracy => ${accuracy}`)
+            // console.log(`classId => ${this.CONTROLS[classId]} | accuracy => ${accuracy}`)
+
+            if(accuracy > 0.99){
+                this.props.updateSelectedOption(this.CONTROLS[classId])
+            }
 
             await tf.nextFrame();
         }

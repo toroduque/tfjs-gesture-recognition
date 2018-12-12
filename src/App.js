@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import debounce from 'lodash.debounce'
 import * as styled from './styled.js'
 import Logo from './Images/Logo'
 import Webcam from './Webcam'
@@ -12,7 +13,8 @@ class App extends Component {
   state = { 
     data: null,
     planets: null,
-    pageNumber: 1
+    pageNumber: 1,
+    selectedOption: null
   }
 
   componentDidMount = async () => {
@@ -22,6 +24,12 @@ class App extends Component {
      const planets = this.groupResultsByPageNumber(pageNumber, data.results)
 
      this.setState({planets, data})
+  }
+
+  updateSelectedOption = (selectedOption) => { 
+    // debounce(() => { 
+      this.setState({selectedOption})
+    // }, 3000)
   }
 
   nextPage = () => {
@@ -60,7 +68,6 @@ class App extends Component {
   }
 
   render() {
-
     return (
       <styled.AppWrapper>
         <styled.HeaderWrapper>
@@ -74,9 +81,11 @@ class App extends Component {
           <Switch>
             <Route path="/" exact component={() => (
               <PlanetsMenu
-                nextPage={this.nextPage}
-                previousPage={this.previousPage}
-                {...this.state}
+                  nextPage={this.nextPage}
+                  previousPage={this.previousPage}
+                  selectedOption={this.state.selectedOption}
+                  pageNumber={this.state.pageNumber}
+                  planets={this.state.planets}
               />)} 
             />
             <Route path="/planet/:name" component={PlanetCard} />
@@ -85,7 +94,7 @@ class App extends Component {
             )} />
           </Switch>
         </Router>
-        <Classifier webcam={this.webcam} onRef={ref => (this.classifier = ref)} />
+        <Classifier webcam={this.webcam} onRef={ref => (this.classifier = ref)} updateSelectedOption={this.updateSelectedOption}/>
       </styled.AppWrapper>
     );
   }

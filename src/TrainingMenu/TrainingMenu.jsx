@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react'
+import { withRouter } from 'react-router-dom'
 import * as styled from './styled'
 
-const TrainingMenu = ({classifier}) => {
+const TrainingMenu = ({classifier, history}) => {
     const labels = classifier && classifier.CONTROLS
     const getExamples = classifier && classifier.getExamples
     const train = classifier && classifier.train
@@ -10,7 +11,9 @@ const TrainingMenu = ({classifier}) => {
     const handleGetExamples = (index) => {
         // Take examples every 100ms for 5 seconds
         const test = setInterval(() => getExamples(index), 5)
-        setTimeout(() => clearInterval(test), 6000)
+        setTimeout(() => {
+            clearInterval(test)
+        }, 6000)
     }
 
     return (
@@ -27,11 +30,14 @@ const TrainingMenu = ({classifier}) => {
                 </styled.GetExamplesButtons>
                 <styled.TrainingButtons>
                     <button onClick={train}> TRAIN </button>
-                    <button onClick={predict}> PREDICT </button>
+                    <button onClick={() => {
+                        predict()
+                        history.push('/')
+                    }}> START </button>
                 </styled.TrainingButtons>
             </Fragment> }
         </Fragment>
        
 )}
 
-export default TrainingMenu
+export default withRouter(TrainingMenu)
