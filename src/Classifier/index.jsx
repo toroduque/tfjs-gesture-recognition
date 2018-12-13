@@ -85,7 +85,9 @@ class Classifier extends Component {
                 callbacks: {
                     onBatchEnd: async(batch, logs) => {
                         console.log('Loss: ', logs.loss.toFixed(5))
-                    }
+                    },
+                    onTrainBegin: () => this.props.updateIsTraining(true),
+                    onTrainEnd: () => this.props.updateIsTraining(false),
                 }
             })
         })

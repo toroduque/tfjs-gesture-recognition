@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
+import Icon from '../Images/Icon'
 import * as styled from './styled'
 
 const TrainingMenu = ({classifier, history}) => {
@@ -16,16 +17,27 @@ const TrainingMenu = ({classifier, history}) => {
         }, 6000)
     }
 
+    const mapIcon = {
+        'left': 'thumb-left',
+        'right': 'thumb-right',
+        'one': 'one-fingers',
+        'two': 'two-fingers',
+        'three': 'three-fingers'
+    }
+
     return (
         <Fragment>
             { classifier &&  
             <Fragment>
                 <styled.GetExamplesButtons>
                     { labels.map((label, index) => (
-                        <div key={label}>
-                            <canvas width="224" height="224" id={`${label}-thumb`}></canvas>
-                            <button style={{display: "block"}} onClick={() => handleGetExamples(index)}> {label} examples </button>
-                        </div>
+                        <styled.ExampleWrapper key={label}>
+                            <Icon glyph={`${mapIcon[label]}`} color="papayawhip" size="80"/>
+                            <div>
+                                <canvas width="224" height="224" id={`${label}-thumb`}></canvas>
+                            </div>
+                            <button style={{display: "block"}} onClick={() => handleGetExamples(index)}> Get {label} samples </button>
+                        </styled.ExampleWrapper>
                     ))}
                 </styled.GetExamplesButtons>
                 <styled.TrainingButtons>

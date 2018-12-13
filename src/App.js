@@ -21,7 +21,8 @@ class App extends Component {
       data: null,
       planets: null,
       pageNumber: 1,
-      selectedOption: null
+      selectedOption: null,
+      isTraining: false
   }
 
   componentDidMount = async () => {
@@ -38,8 +39,9 @@ class App extends Component {
           return { selectedOption }
       }
   }))
-  
 
+  updateIsTraining = (isTraining) => this.setState({isTraining})
+  
   nextPage = () => {
       const { pageNumber, data } = this.state
 
@@ -98,11 +100,16 @@ class App extends Component {
             />
             <Route path="/planet/:name" component={() => <PlanetCard selectedOption={this.state.selectedOption}/>} />
             <Route path="/training" component={() => (
-              <TrainingMenu classifier={this.classifier}/>
+              <TrainingMenu classifier={this.classifier} isTraining={this.state.isTraining}/>
             )} />
           </Switch>
         </Router>
-        <Classifier webcam={this.webcam} onRef={ref => (this.classifier = ref)} updateSelectedOption={this.updateSelectedOption}/>
+        <Classifier 
+            webcam={this.webcam} 
+            onRef={ref => (this.classifier = ref)} 
+            updateSelectedOption={this.updateSelectedOption} 
+            updateIsTraining={this.updateIsTraining} 
+        />
       </styled.AppWrapper>
     );
   }
