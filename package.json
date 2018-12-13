@@ -6,6 +6,7 @@
     "@tensorflow/tfjs": "^0.13.5",
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
+    "lodash.throttle": "^4.1.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-router-dom": "^4.3.1",

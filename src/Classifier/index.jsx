@@ -1,14 +1,20 @@
 import * as tf from '@tensorflow/tfjs'
 import React, { Component } from 'react'
+import throttle from 'lodash.throttle'
 import ControllerDataset from '../ControllerDataset'
 
 class Classifier extends Component {
+    constructor(props) {
+        super(props)
+        this.handleUpdateSelectedOption = throttle(this.props.updateSelectedOption, 3000)
+    }
+
     state = {
        numClasses: 5,
        truncatedMobileNet: null,
        model: null,
        learningRate: 0.0001,
-       epochs: 40,
+       epochs: 30,
        isPredicting: false,
        thumbDisplayed: {}
     }
@@ -105,11 +111,8 @@ class Classifier extends Component {
             // Clean memory with dispose
             predictedClass.dispose()
 
-            // this should return the label of the prediction
-            // console.log(`classId => ${this.CONTROLS[classId]} | accuracy => ${accuracy}`)
-
-            if(accuracy > 0.99){
-                this.props.updateSelectedOption(this.CONTROLS[classId])
+            if(accuracy > 0.995){
+                this.handleUpdateSelectedOption(this.CONTROLS[classId])
             }
 
             await tf.nextFrame();

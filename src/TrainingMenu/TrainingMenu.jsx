@@ -22,7 +22,7 @@ const TrainingMenu = ({classifier, history}) => {
             <Fragment>
                 <styled.GetExamplesButtons>
                     { labels.map((label, index) => (
-                        <div>
+                        <div key={label}>
                             <canvas width="224" height="224" id={`${label}-thumb`}></canvas>
                             <button style={{display: "block"}} onClick={() => handleGetExamples(index)}> {label} examples </button>
                         </div>
