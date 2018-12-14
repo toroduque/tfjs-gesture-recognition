@@ -3,11 +3,6 @@ import { Link, withRouter } from 'react-router-dom'
 import Icon from '../Images/Icon'
 import * as styled from './styled'
 class PlanetCard extends Component {
-    constructor() {
-        super()
-
-        this.goBackThrottled = this.props.history && this.props.history.goBack()
-    }
 
     
     createPlanetTable(planet) {
@@ -25,7 +20,7 @@ class PlanetCard extends Component {
     }
 
     handleSelectedOption = (selectedOption) => {
-        if(selectedOption === 'left') this.goBackThrottled()
+        if(selectedOption === 'left') this.props.history && this.props.history.goBack()
     }
 
     render() {
