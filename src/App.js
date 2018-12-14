@@ -13,7 +13,7 @@ import TrainingMenu from './TrainingMenu/index.js';
 class App extends Component {
     constructor() {
         super()
-        this.updateSelectedOptionThrottle = throttle(this.updateSelectedOption, 1000)
+        this.updateSelectedOptionThrottle = throttle(this.updateSelectedOption, 3000)
         this.nextPageThrottle =  throttle(this.nextPage, 3000)
         this.previousPageThrottle =  throttle(this.previousPage, 3000)
     }

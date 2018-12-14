@@ -91,7 +91,7 @@ class TrainingMenu extends Component {
             <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                 <h3>Model ready!</h3>
                 <img src="https://cdn.dribbble.com/users/130603/screenshots/2291004/rebeldarth_01.gif" alt="use the force" width="400px" />
-                <div style={{'text-align': 'center', 'margin-top': '40px'}}>
+                <div style={{textAlign: 'center', marginTop: '40px'}}>
                     <button onClick={() => {
                         predict()
                         history.push('/')

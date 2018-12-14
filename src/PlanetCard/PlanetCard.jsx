@@ -3,6 +3,12 @@ import { Link, withRouter } from 'react-router-dom'
 import Icon from '../Images/Icon'
 import * as styled from './styled'
 class PlanetCard extends Component {
+    constructor() {
+        super()
+
+        this.goBackThrottled = this.props.history && this.props.history.goBack()
+    }
+
     
     createPlanetTable(planet) {
         const excludedProperties = ['name', 'residents', 'films', 'created', 'edited', 'url']
@@ -19,7 +25,7 @@ class PlanetCard extends Component {
     }
 
     handleSelectedOption = (selectedOption) => {
-        if(selectedOption === 'left') this.props.history && this.props.history.push('/')
+        if(selectedOption === 'left') this.goBackThrottled()
     }
 
     render() {
@@ -47,16 +53,12 @@ class PlanetCard extends Component {
                     <img src={`${process.env.PUBLIC_URL}/img/${planet.name}.png`} alt={planet.name}/> 
                 }
                 </styled.RightColumn>  
-        
-           
             </styled.PlanetCardWrapper>
             <styled.NavigationWrapper>
-                <Link to="/">
-                    <styled.BackButton>
-                        <Icon glyph="thumb-left" color="papayawhip" size="80" />
-                        <p>Back</p>
-                    </styled.BackButton>
-                </Link>
+                <styled.BackButton onClick={this.props.history.goBack}>
+                    <Icon glyph="thumb-left" color="papayawhip" size="80" />
+                    <p>Back</p>
+                </styled.BackButton>
             </styled.NavigationWrapper>
         </Fragment>)
     }

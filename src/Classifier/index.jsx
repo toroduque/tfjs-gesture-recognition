@@ -114,7 +114,7 @@ class Classifier extends Component {
             predictedClass.dispose()
 
             if(accuracy > 0.995){
-                this.handleUpdateSelectedOption(this.CONTROLS[classId])
+               this.props.updateSelectedOption(this.CONTROLS[classId])
             }
 
             await tf.nextFrame();
