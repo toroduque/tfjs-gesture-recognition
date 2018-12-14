@@ -13,8 +13,9 @@ import TrainingMenu from './TrainingMenu/index.js';
 class App extends Component {
     constructor() {
         super()
-        this.updateSelectedOption = throttle(this.updateSelectedOption, 1000)
+        this.updateSelectedOptionThrottle = throttle(this.updateSelectedOption, 1000)
         this.nextPageThrottle =  throttle(this.nextPage, 3000)
+        this.previousPageThrottle =  throttle(this.previousPage, 3000)
     }
 
   state = { 
@@ -22,7 +23,7 @@ class App extends Component {
       planets: null,
       pageNumber: 1,
       selectedOption: null,
-      isTraining: false
+      trainingState: 'no-trained'
   }
 
   componentDidMount = async () => {
@@ -40,7 +41,7 @@ class App extends Component {
       }
   }))
 
-  updateIsTraining = (isTraining) => this.setState({isTraining})
+  updateTrainingState = (trainingState) => this.setState({trainingState})
   
   nextPage = () => {
       const { pageNumber, data } = this.state
@@ -92,7 +93,7 @@ class App extends Component {
             <Route path="/" exact component={() => (
               <PlanetsMenu
                   nextPage={this.nextPageThrottle}
-                  previousPage={this.previousPage}
+                  previousPage={this.previousPageThrottle}
                   selectedOption={this.state.selectedOption}
                   pageNumber={this.state.pageNumber}
                   planets={this.state.planets}
@@ -100,15 +101,15 @@ class App extends Component {
             />
             <Route path="/planet/:name" component={() => <PlanetCard selectedOption={this.state.selectedOption}/>} />
             <Route path="/training" component={() => (
-              <TrainingMenu classifier={this.classifier} isTraining={this.state.isTraining}/>
+              <TrainingMenu classifier={this.classifier} trainingState={this.state.trainingState}/>
             )} />
           </Switch>
         </Router>
         <Classifier 
             webcam={this.webcam} 
             onRef={ref => (this.classifier = ref)} 
-            updateSelectedOption={this.updateSelectedOption} 
-            updateIsTraining={this.updateIsTraining} 
+            updateSelectedOption={this.updateSelectedOptionThrottle} 
+            updateTrainingState={this.updateTrainingState} 
         />
       </styled.AppWrapper>
     );
