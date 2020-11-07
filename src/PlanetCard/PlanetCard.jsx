@@ -1,17 +1,12 @@
 import React, { Component, Fragment } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import Icon from '../Images/Icon'
 import * as styled from './styled'
 class PlanetCard extends Component {
-
     
     createPlanetTable(planet) {
         const excludedProperties = ['name', 'residents', 'films', 'created', 'edited', 'url']
-        const tableProperties = Object.keys(planet).map(prop => {
-            if(!excludedProperties.includes(prop)) {
-                return prop
-            }
-        })
+        const tableProperties = Object.keys(planet).filter(prop => !excludedProperties.includes(prop)) 
     
         return tableProperties.map(prop => {
             const formatedProp = prop && prop.replace('_', ' ')
@@ -20,13 +15,11 @@ class PlanetCard extends Component {
     }
 
     handleSelectedOption = (selectedOption) => {
-        if(selectedOption === 'left') this.props.history && this.props.history.goBack()
+        if (selectedOption === 'left') this.props.history && this.props.history.goBack()
     }
 
     render() {
         const planet  = this.props.location && this.props.location.state.planet
-
-        console.log('this.props', this.props)
 
         return (
             <Fragment>
@@ -45,7 +38,11 @@ class PlanetCard extends Component {
                 <styled.RightColumn>
                 {
                     planet &&
-                    <img src={`${process.env.PUBLIC_URL}/img/${planet.name}.png`} alt={planet.name}/> 
+                    <img 
+                        src={`${process.env.PUBLIC_URL}/img/${planet.name}.png`} 
+                        alt={planet.name}
+                        width="301"
+                    /> 
                 }
                 </styled.RightColumn>  
             </styled.PlanetCardWrapper>

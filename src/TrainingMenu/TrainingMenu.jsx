@@ -94,7 +94,7 @@ class TrainingMenu extends Component {
                 <div style={{textAlign: 'center', marginTop: '40px'}}>
                     <button onClick={() => {
                         predict()
-                        history.push('/')
+                        history.push('/home')
                     }}> START USING "THE FORCE" </button>
                 </div>
             </div> )

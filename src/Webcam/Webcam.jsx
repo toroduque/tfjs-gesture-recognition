@@ -63,7 +63,13 @@ class Webcam extends Component {
         })
     }
 
-    render = () => <video ref={this.video}></video>
+    render = () => (
+        <video 
+            ref={this.video} 
+            width={this.state.videoWidth} 
+            height={this.state.videoHeight}>
+        </video>
+    )
 }
 
 export default Webcam

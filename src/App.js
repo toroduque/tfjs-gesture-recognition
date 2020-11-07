@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-// import debounce from 'lodash.debounce'
 import throttle from 'lodash.throttle'
 import * as styled from './styled.js'
 import Logo from './Images/Logo'
@@ -8,7 +7,8 @@ import Webcam from './Webcam'
 import PlanetsMenu from './PlanetsMenu'
 import PlanetCard from './PlanetCard'
 import Classifier from './Classifier'
-import TrainingMenu from './TrainingMenu/index.js';
+import TrainingMenu from './TrainingMenu';
+import Landing from './Landing'
  
 class App extends Component {
     constructor() {
@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   componentDidMount = async () => {
-      const response = await fetch('https://swapi.co/api/planets/')
+      const response = await fetch('https://swapi.dev/api/planets/')
       const data = await response.json()
       const { pageNumber } = this.state
       const planets = this.groupResultsByPageNumber(pageNumber, data.results)
@@ -36,7 +36,7 @@ class App extends Component {
   }
 
   updateSelectedOption = (selectedOption) => this.setState((prevState => {
-      if(prevState.selectedOption !== selectedOption) {
+      if (prevState.selectedOption !== selectedOption) {
           return { selectedOption }
       }
   }))
@@ -90,7 +90,8 @@ class App extends Component {
         </styled.HeaderWrapper>
         <Router>
           <Switch>
-            <Route path="/" exact component={() => (
+            <Route path="/" exact component={() => <Landing />}/>
+            <Route path="/home" exact component={() => (
               <PlanetsMenu
                   nextPage={this.nextPageThrottle}
                   previousPage={this.previousPageThrottle}
