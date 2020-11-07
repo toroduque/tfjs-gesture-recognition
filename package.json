@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@tensorflow/tfjs": "^0.13.5",
+    "firebase": "^8.0.1",
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
     "lodash.throttle": "^4.1.1",
